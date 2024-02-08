@@ -74,7 +74,7 @@ public class Employee {
 		return street;
 	}
 	
-	public void SetStreet(String street) {
+	public void setStreet(String street) {
 		this.street=street;
 	}
 	

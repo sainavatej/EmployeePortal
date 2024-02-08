@@ -58,7 +58,7 @@
 
 
 
-            <form action="@{/employee/updateprofile/{id}}" th:action="@{/employee/updateprofile/{id}}" th:object="${userDetails}" enctype="multipart/form-data" method="post">
+            <form action="@{/employee/updateprofile}" th:action="@{/employee/updateprofile}" th:object="${userDetails}" enctype="multipart/form-data" method="post">
                <section>
                   <h2> Personal Details </h2>
                   <hr>
@@ -67,7 +67,7 @@
              <p>Name : <input type="text" th:field="${usersDetails.name}" size="100" /></p>
              <!--<p>First Name : <input type="text" th:field="${usersDetails.name}" size="100" /></p> -->
                <p>Department : <input type="text" th:field="${usersDetails.depName}" size="100" /></p>
-                <p>Salary : <input type="text" th:field="${usersDetails.salary1}" size="100" /></p>
+                <p>Salary : <input type="number" th:field="${usersDetails.salary1}" size="100" /></p>
                  <p>Tax : <input type="text" th:field="${usersDetails.taxSlab}" size="100" /></p>
                  <p>Address : <input type="text" th:field="${usersDetails.address1}" size="100" /></p>
                   <p>Street : <input type="text" th:field="${usersDetails.street}" size="100" /></p>
