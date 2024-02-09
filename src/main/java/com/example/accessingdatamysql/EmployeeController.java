@@ -132,7 +132,14 @@ public class EmployeeController {
 //		model.addAttribute("employeeList", jsonObj);
 //		return "emplist";
 //	}
-//	
+	
+	@GetMapping(path = "/create")
+	public String greetingForm(Model model) {
+		System.out.println("inside get create employee method");
+		model.addAttribute("employee", new Employee());
+		return "empcreate";
+	}
+	
 	
 	@PostMapping(path = "/create")
 	public String addNewEmployee(@RequestParam String name, 
@@ -142,7 +149,9 @@ public class EmployeeController {
 	                             @RequestParam String state, 
 	                             @RequestParam String address1, 
 	                             @RequestParam String city, 
-	                             @RequestParam String street,@RequestParam(required=false) Integer salary1,
+	                             @RequestParam String street, //  @RequestParam String salary1,
+	                           @RequestParam(required=false) Integer salary1, 
+	                            
 	                             Model model) {
 	    
 	    System.out.println("entered the create Employee method");
@@ -156,7 +165,7 @@ public class EmployeeController {
 	    
 	    emp.setState(state);
 	    emp.setAddress1(address1);
-	    emp.SetStreet(street);
+	    emp.setStreet(street);
 	    emp.setCity(city);
 	    emp.setdepName(depName);
 	    emp.setSalary1(salary1);
@@ -187,13 +196,60 @@ public class EmployeeController {
 	    
 	    return "emplist";
 	}
+	
 
-	@GetMapping(path = "/create")
-	public String greetingForm(Model model) {
-		System.out.println("inside get create employee method");
-		model.addAttribute("employee", new Employee());
-		return "empcreate";
+	@GetMapping(path = "/emplist")
+	public String listUsers(Model model) {
+		System.out.println("inside the employee list controller methods");
+		ArrayList<Employee> jsonObj = (ArrayList<Employee>) employeeRepository.findAll();
+		model.addAttribute("employeeList", jsonObj);
+		return "emplist";
 	}
+
+
+	
+	@GetMapping(path = "/updateprofile")
+	public String updateProfile(@RequestParam long id, Model model) {
+		System.out.println("hereeeeeee");
+		model.addAttribute("user", new Employee());
+		Optional<Employee> empData = employeeRepository.findById(id);
+		Employee currentEmployee  = empData.get();
+		model.addAttribute("usersDetails", currentEmployee);
+		return "updateprofile";
+	}
+	
+	
+	@PostMapping("/updateprofile")
+	public String processUpdateProfile(@RequestParam long id, @ModelAttribute Employee updatedEmployee, Model model) {
+	    Optional<Employee> existingEmployeeData = employeeRepository.findById(id);
+	    if (existingEmployeeData.isPresent()) {
+	        Employee existingEmployee = existingEmployeeData.get();
+
+	        // Update fields based on the updatedEmployee object
+	        existingEmployee.setName(updatedEmployee.getName());
+	        existingEmployee.setAddress1(updatedEmployee.getAddress1());
+	        existingEmployee.setState(updatedEmployee.getState());
+	        existingEmployee.setCity(updatedEmployee.getCity());
+	        existingEmployee.setStreet(updatedEmployee.getStreet());
+	        existingEmployee.setDepartment(updatedEmployee.getDepartment());
+	        existingEmployee.setSalary1(updatedEmployee.getSalary1());
+	        existingEmployee.setTaxSlab(updatedEmployee.getTaxSlab());
+	      //  existingEmployee.SetStreet(updatedEmployee.getStreet());
+	        // Update other fields as needed
+
+	        // Save the updated employee details
+	        employeeRepository.save(existingEmployee);
+
+	        model.addAttribute("user", existingEmployee);
+	        model.addAttribute("message", "Employee details updated successfully");
+	        return "success"; // You can create a success.html template
+	    } else {
+	    	
+	        // Handle the case where employee with given id is not found
+	        return "error"; // You can create an error.html template
+	    }
+	}
+	
 	
 	@GetMapping(path = "/registration")
 	public String registrationForm(Model model) {
@@ -345,47 +401,7 @@ public class EmployeeController {
 	    }
  
 	
-	@GetMapping(path = "/updateprofile")
-	public String updateProfile(@RequestParam long id, Model model) {
-		System.out.println("hereeeeeee");
-		model.addAttribute("user", new Employee());
-		Optional<Employee> empData = employeeRepository.findById(id);
-		Employee currentEmployee  = empData.get();
-		model.addAttribute("usersDetails", currentEmployee);
-		return "updateprofile";
-	}
 	
-	
-	@PostMapping("/updateprofile/{id}")
-	public String processUpdateProfile(@PathVariable long id, @ModelAttribute Employee updatedEmployee, Model model) {
-	    Optional<Employee> existingEmployeeData = employeeRepository.findById(id);
-
-	    if (existingEmployeeData.isPresent()) {
-	        Employee existingEmployee = existingEmployeeData.get();
-
-	        // Update fields based on the updatedEmployee object
-	        existingEmployee.setName(updatedEmployee.getName());
-	        existingEmployee.setAddress1(updatedEmployee.getAddress1());
-	        existingEmployee.setState(updatedEmployee.getState());
-	        existingEmployee.setCity(updatedEmployee.getCity());
-	        existingEmployee.SetStreet(updatedEmployee.getStreet());
-	        existingEmployee.setDepartment(updatedEmployee.getDepartment());
-	        existingEmployee.setSalary1(updatedEmployee.getSalary1());
-	        existingEmployee.setTaxSlab(updatedEmployee.getTaxSlab());
-	        // Update other fields as needed
-
-	        // Save the updated employee details
-	        employeeRepository.save(existingEmployee);
-
-	        model.addAttribute("user", existingEmployee);
-	        model.addAttribute("message", "Employee details updated successfully");
-	        return "success"; // You can create a success.html template
-	    } else {
-	    	
-	        // Handle the case where employee with given id is not found
-	        return "error"; // You can create an error.html template
-	    }
-	}
 
 
 //	@GetMapping(path = "/updateprofile")
@@ -407,14 +423,6 @@ public class EmployeeController {
 		System.out.println("department name is : " + currentEmp.getDepartment().getName());
 		model.addAttribute("depDetails", currentEmp.getDepartment());
 		return "updatesalary";
-	}
-
-	@GetMapping(path = "/emplist")
-	public String listUsers(Model model) {
-		System.out.println("inside the employee list controller methods");
-		ArrayList<Employee> jsonObj = (ArrayList<Employee>) employeeRepository.findAll();
-		model.addAttribute("employeeList", jsonObj);
-		return "emplist";
 	}
 
 	@GetMapping(path = "/all-sals")

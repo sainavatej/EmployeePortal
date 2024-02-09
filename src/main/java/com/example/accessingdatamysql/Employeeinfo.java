@@ -16,6 +16,7 @@ public class Employeeinfo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+
 	private String firstName;
     private String surname;
 	private String primaryMobile;
@@ -25,6 +26,8 @@ private LocalDate doj;
 private String projectName;
 private LocalDate projectAllocationDate;
 private double monthlySalary;
+//private String street;
+
 private List<String> workType;
 
 
