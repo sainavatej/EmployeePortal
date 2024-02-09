@@ -17,9 +17,8 @@ public class Employee {
 	private String state;
 	private String city;
 	private String street;
-
 	private String depName;
-	private Integer salary1;
+	private Integer salary2;
 	private String taxSlab;
 	
 	public String getdepName() {
@@ -28,14 +27,14 @@ public class Employee {
 	public void setdepName(String depName) {
 		this.depName=depName;
 	}
-	
-	
-	public Integer getSalary1() {
-		return salary1;
+
+	public Integer getSalary2() {
+		return salary2;
 	}
-	public void setSalary1(Integer salary1) {
-		this.salary1=salary1;
+	public void setSalary2(Integer salary2) {
+		this.salary2=salary2;
 	}
+	
 	
 	public String getTaxSlab() {
 		return taxSlab;
