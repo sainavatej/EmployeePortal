@@ -142,44 +142,50 @@ public class EmployeeController {
 	
 	
 	@PostMapping(path = "/create")
-	public String addNewEmployee(@RequestParam String name, 
-	                             @RequestParam String depName, 
-	                             @RequestParam String salary,
+	public String addNewEmployee(@RequestParam String name,
+	                             @RequestParam String depName,
+	                             @RequestParam(required = false) String salary,
 	                             @RequestParam String taxSlab,
-	                             @RequestParam String state, 
-	                             @RequestParam String address1, 
-	                             @RequestParam String city, 
-	                             @RequestParam String street, //  @RequestParam String salary1,
-	                           @RequestParam(required=false) Integer salary1, 
-	                            
+	                             @RequestParam String state,
+	                             @RequestParam String address1,
+	                             @RequestParam String city,
+	                             @RequestParam String street,
+	                             @RequestParam(required = false) Integer salary2,
 	                             Model model) {
-	    
+
 	    System.out.println("entered the create Employee method");
-	    
+
 	    Employee emp = new Employee();
 	    emp.setName(name);
 
 	    Department dep = new Department();
 	    dep.setName(depName);
 	    departmentRepository.save(dep);
-	    
+
+	    System.out.println("before setting salary" + salary2);
+	    emp.setSalary2(salary2);
+	    System.out.println("after setting salary" + emp.getSalary2());
+
 	    emp.setState(state);
 	    emp.setAddress1(address1);
 	    emp.setStreet(street);
 	    emp.setCity(city);
 	    emp.setdepName(depName);
-	    emp.setSalary1(salary1);
 	    emp.setTaxSlab(taxSlab);
-	    
-	    
+
 	    employeeRepository.save(emp);
 
 	    Address address = new Address();
 	    addressRepository.save(address);
 
 	    Salary salObj = new Salary();
-	    int sal = Integer.parseInt(salary);
-	    salObj.setSalary((long) sal);
+
+	    // Check if salary is not null before attempting to parse
+	    if (salary != null && !salary.isEmpty()) {
+	        int sal = Integer.parseInt(salary);
+	        salObj.setSalary((long) sal);
+	    }
+
 	    salaryRepository.save(salObj);
 
 	    emp.setDepartment(dep);
@@ -193,10 +199,10 @@ public class EmployeeController {
 	    ArrayList<Employee> jsonObj = (ArrayList<Employee>) employeeRepository.findAll();
 	    model.addAttribute("reqHtml", "Employee with the name " + name + " has been created!");
 	    model.addAttribute("employeeList", jsonObj);
-	    
+
 	    return "emplist";
 	}
-	
+
 
 	@GetMapping(path = "/emplist")
 	public String listUsers(Model model) {
@@ -232,7 +238,7 @@ public class EmployeeController {
 	        existingEmployee.setCity(updatedEmployee.getCity());
 	        existingEmployee.setStreet(updatedEmployee.getStreet());
 	        existingEmployee.setDepartment(updatedEmployee.getDepartment());
-	        existingEmployee.setSalary1(updatedEmployee.getSalary1());
+	        existingEmployee.setSalary2(updatedEmployee.getSalary2());
 	        existingEmployee.setTaxSlab(updatedEmployee.getTaxSlab());
 	      //  existingEmployee.SetStreet(updatedEmployee.getStreet());
 	        // Update other fields as needed
