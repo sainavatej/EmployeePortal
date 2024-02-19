@@ -23,6 +23,7 @@
 
                 <h1>Employee Basic Details</h1>
                 <form th:action="@{/employee/create}" th:object="${employee}" method="post">
+				
 
                     <!-- Current fields initially shown -->
                     <div id="currentFields">
@@ -44,7 +45,7 @@
 
                     <p>
                         <input type="submit" value="Submit" />
-                        <input type="button" value="Reset" id="resetButton" onclick="resetOrPrevious()" />
+                        <input type="button" value="Clear" id="resetButton" onclick="resetForm()" />
                         <input type="button" value="Next" onclick="showAdditionalFields()" />
                     </p>
                 </form>
@@ -63,11 +64,11 @@
             resetButton.value = "Previous";
             resetButton.onclick = function () {
                 showPreviousFields();
-                resetButton.value = "Reset";
+                resetButton.value = "Clear";
                 resetButton.onclick = function () {
-                    // Add reset functionality here
-                };
-            };
+                    resetForm();
+                }
+            }
         }
 
         function showPreviousFields() {
@@ -78,9 +79,11 @@
             additionalFieldsDiv.style.display = "none";
         }
 
-        function resetOrPrevious() {
-            // Add reset functionality here
-            // Or call showPreviousFields() based on your requirement
+        function resetForm() {
+            // Reset form fields to their initial values or clear them
+            var form = document.querySelector("form");
+            form.reset();
+            showPreviousFields(); // Show the initial fields after resetting
         }
     </script>
 </body>

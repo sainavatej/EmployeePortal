@@ -29,29 +29,41 @@
                   <td> <strong> City </strong></td>
                   <td> <strong> Update Profile </strong></td>
                   <td> <strong> Update Salary </strong></td>
+                  <td> <strong> Delete Profile</strong></td>
                </tr>
 
                <tr th:each="emp : ${employeeList}">
+			
                   <td>
                      <a th:href="@{'userdetails?id=' + ${emp.id}}"><span th:utext="${emp.name}" /></a>
                   </td>
                   <td th:text="${emp.id}"></td>
-                 <td th:if="${emp.department != null}" th:text="${emp.getDepartment().getName()}"></td>
-    <td th:if="${emp.address != null}" th:text="${emp.getAddress().getStreet()}"></td>
-    <td th:if="${emp.address != null}" th:text="${emp.getAddress().getCity()}"></td>
-   
-    <td> 
+                  <td th:text="${emp.getdepName()}"></td>
+                  <td th:text="${emp.getState()}"></td>
+                  <td th:text="${emp.getCity()}"></td>
+                  <td> 
                      <a th:href="@{'updateprofile?id=' + ${emp.id}}" style="float: right;"><span>Edit Profile</span></a>
                   </td>
                   <td>
                      <a th:href="@{'updatesalary?id=' + ${emp.id}}" style="float: right;"><span>Update Salary</span></a>
                   </td>
+                  
+                  <td>
+                     <a th:href="@{'deleteprofile?id=' + ${emp.id}}" style="float: right;"> <span>Delete Profile</span> </a>
+                  </td>
+
+<!-- ... (existing code) ... -->
+
+<span th:if="${reqHtml != ''}">
+    <p th:text="${reqHtml}"></p>
+</span>
+
+
                </tr>
             </table>
-         </div> <!-- Add this closing div -->
+         </div>
       </div>
    </div>
-
 </body>
 
 </html>

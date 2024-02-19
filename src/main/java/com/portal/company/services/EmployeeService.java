@@ -17,4 +17,9 @@ public class EmployeeService {
 		return employeeRepository.findAll();
 	}
 
+	public static void deleteEmployeeById(long id) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
