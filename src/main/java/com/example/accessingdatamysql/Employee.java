@@ -9,6 +9,7 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Employee {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -127,5 +128,9 @@ public class Employee {
 
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+	public static void deleteById(long id2) {
+		// TODO Auto-generated method stub
+		
 	}
 }
